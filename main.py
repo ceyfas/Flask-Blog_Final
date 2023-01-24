@@ -13,6 +13,7 @@ import calendar
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from functools import wraps
 from flask import abort
+import os
 
 
 app = Flask(__name__)
@@ -25,7 +26,7 @@ Base = declarative_base()
 
 # Database configuration and connection
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 db.init_app(app)
 
 
