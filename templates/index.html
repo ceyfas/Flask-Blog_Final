@@ -1,0 +1,38 @@
+    {% extends "base.html" %}
+    {% block heading %}Python Project{% endblock %}
+    {% block subheading %}A Blog Theme by Start Bootstrap{% endblock %}
+    {% block content %}
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+
+                    {% for post in all_posts: %}
+                    <!-- Post preview-->
+                    <div class="post-preview">
+                        <a href="/{{ post.id }}">
+                            <h2 class="post-title">{{ post.title }}</h2>
+                            <h3 class="post-subtitle">{{  post.subtitle  }}</h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            <a href="">{{ post.author.name }}</a>
+                            on {{ post.date }}
+                            <!-- If user id is 1 then it can see the Delete button -->
+                            {% if current_user.id == 1: %}
+                            <a href="/delete/{{ post.id }}">✘</a>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <!-- Divider-->
+                    <hr class="my-4" />
+                    {% endfor %}
+
+                    <!-- Pager-->
+                    <!-- If user id is 1 then it can see the Create new post button -->
+                    {% if current_user.id == 1: %}
+                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="{{ url_for('new_post') }}">Create new post</a></div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endblock %}

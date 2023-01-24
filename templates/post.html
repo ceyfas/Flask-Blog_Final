@@ -1,0 +1,57 @@
+    {% import "bootstrap/wtf.html" as wtf %}
+    {% extends "base.html" %}
+    {% block header %}
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url({{ post.img_url }})">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="post-heading">
+                            <h1>{{  post.title  }}</h1>
+                            <h2 class="subheading">{{  post.subtitle  }}</h2>
+                            <span class="meta">
+                                Posted by
+                                <a href="#!">{{  post.author.name  }}</a>
+                                on {{  post.date  }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    {% endblock %}
+    {% block content %}
+    {{ ckeditor.load() }}
+        <!-- Post Content-->
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <p>{{  post.body|safe  }}</p>
+                        <!-- If user id is 1 then they can see the Edit Post button -->
+                        {% if current_user.id == 1: %}
+                        <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="{{ url_for('edit_post', post=post.id) }}">Edit post</a></div>
+                        {% endif %}
+                    </div>
+                    <!-- Comment Area -->
+                    <div class="col-lg-8 col-md-10 mx-auto comment">
+                        <h3>Comments:</h3>
+
+                        {% for comment in comments: %}
+                            <div class="commentText">
+                                <p>{{ comment.text|safe }}</p>
+                                <p class="date sub-text">By {{ comment.author.name }}, on {{ comment.date }}</p>
+                            </div>
+                            <hr>
+                        {% endfor %}
+                        <!-- If user id is logged in then it can see Comment Area -->
+                        {% if logged_in: %}
+                            {{ wtf.quick_form(form, button_map={'submit':'primary'}) }}
+                        {% endif %}
+
+                    </div>
+                    <!-- End of Comment Area -->
+                </div>
+            </div>
+        </article>
+    {% endblock %}

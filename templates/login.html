@@ -1,0 +1,26 @@
+    {% import "bootstrap/wtf.html" as wtf %}
+    {% extends "base.html" %}
+    {% block heading %}Python Project{% endblock %}
+    {% block subheading %}Welcome!{% endblock %}
+    {% block content %}
+    <!-- Main Content-->
+    <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <h1>Login</h1>
+
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <p class=flashes>
+                            {% for message in messages %}
+                                {{ message }}
+                            {% endfor %}
+                            </p>
+                        {% endif %}
+                      {% endwith %}
+
+                    {{ wtf.quick_form(form, button_map={'submit':'primary', }) }}
+                </div>
+            </div>
+    </div>
+    {% endblock %}
